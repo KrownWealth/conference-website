@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Home from './Home';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import Speakers from './Speakers';
+
+export const ConfigContext = React.createContext();
+
+const pageToShow = () => {
+ const pageName = window.location.pathname === '/speakers' ? 'Speakers' : 'Home';
+
+  if (pageName === "Home") return <Home />;
+  if (pageName === "Speakers") return <Speakers />;
+  return <div>Not Found</div>;
+};
+
+const configValue ={
+  showSignMeUp: true,
+  showSpeakerSpeakingDays: false
+
+};
+
+const App = ( {pageName }) => {
+  return(
+    <ConfigContext.Provider value={configValue}>
+  <div>{pageToShow(pageName)}</div>
+  </ConfigContext.Provider>
+  )
+};
+
+
 
 export default App;
